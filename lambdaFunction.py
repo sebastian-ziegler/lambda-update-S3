@@ -59,7 +59,7 @@ def get_documentation(s3, artifacts):
          print(zip.namelist())
          return zip.read(documentationFileName)
 
-def update_documentation(s3, doc):
+def update_documentation(doc):
     print("Updating documentation")
 
     bucketName = "atingo-api-documentation"
@@ -81,7 +81,7 @@ def lambda_handler(event, context):
        docs = get_documentation(s3, artifacts)
 
        if (docs):
-         update_documentation(s3, docs)
+         update_documentation(docs)
          put_job_success(job_id, "Doc updated successfully")
        else:
          print("Failure")
