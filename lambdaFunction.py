@@ -1,5 +1,6 @@
 from __future__ import print_function
 from boto3.session import Session
+from StringIO import StringIO
 
 import json
 import urllib
@@ -8,6 +9,7 @@ import zipfile
 import tempfile
 import botocore
 import traceback
+import time
 
 print('Initializing function.')
 
@@ -66,10 +68,9 @@ def update_documentation(doc):
     objectKey = "atingoEngineApi/api.json"
     fileName = "api.json"
 
-    with tempfile.NamedTemporaryFile() as tmp_file:
+    with tempfile.NamedTemporaryFile(bufsize = 0) as tmp_file:
        tmp_file.write(doc)
        s3.upload_file(tmp_file.name, bucketName, objectKey)
-       tmp_file.close()
 
 def lambda_handler(event, context):
     try:
